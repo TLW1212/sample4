@@ -1,38 +1,42 @@
 <?php
-// Check if form is submitted
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Database connection details
-    $db_host = '127.0.0.1';
-    $db_user = 'root';
-    $db_pass = '';
-    $db_name = 'bakery';
+// Database connection
+$servername = "project-db.cc7tazxltrra.us-east-1.rds.amazonaws.com"; // Use the appropriate hostname
+$username = "admin"; // Replace with your database username
+$password = "awsprojectdb"; // Replace with your database password
+$dbname = "projectaws"; // Replace with your database name
 
-    // Connect to the database
-    $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Get form data
-    $name = $conn->real_escape_string($_POST['name']);
-    $new_name = $conn->real_escape_string($_POST['new_name']);
-    $description = $conn->real_escape_string($_POST['description']);
-    $price = (float) $_POST['price'];
+    $name = $conn->real_escape_string($_POST['name']); // Original item name
+    $description = $conn->real_escape_string($_POST['description']); // Updated description
+    $price = $conn->real_escape_string($_POST['price']); // Updated price
+    $new_name = $conn->real_escape_string($_POST['new_name']); // Updated item name
 
-    // Update the item in the database
-    $sql = "UPDATE item SET name = '$new_name', description = '$description', price = $price WHERE name = '$name'";
+    // Check if the original item exists in the database
+    $check_sql = "SELECT * FROM Item WHERE name = '$name'";
+    $check_result = $conn->query($check_sql);
 
-    if ($conn->query($sql) === TRUE) {
-        echo '<script>alert("Edit Successful"); window.location.href = "edit.php";</script>';
+    if ($check_result->num_rows > 0) {
+        // Update the item details
+        $update_sql = "UPDATE Item 
+                       SET name = '$new_name', description = '$description', price = '$price' 
+                       WHERE name = '$name'";
+
+        if ($conn->query($update_sql) === TRUE) {
+            echo "Item updated successfully!";
+        } else {
+            echo "Error updating item: " . $conn->error;
+        }
     } else {
-        echo "Error updating item: " . $conn->error;
+        echo "Item not found in the database.";
     }
-
-    // Close the connection
-    $conn->close();
-} else {
-    echo "Invalid request method.";
 }
 ?>

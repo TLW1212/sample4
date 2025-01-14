@@ -1,3 +1,24 @@
+<?php
+// Database connection
+$servername = "project-db.cc7tazxltrra.us-east-1.rds.amazonaws.com";
+$username = "admin"; // Update with your database username
+$password = "awsprojectdb"; // Update with your database password
+$dbname = "projectaws"; // Update with your database name
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Fetch all items from the database
+$sql = "SELECT * FROM Item"; // Assuming the table is named 'items'
+$result = $conn->query($sql);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

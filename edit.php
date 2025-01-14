@@ -35,7 +35,7 @@
                 <option value="">--Select an item--</option>
                 <?php
                 // Connect to the database
-                $conn = new mysqli('127.0.0.1', 'root', '', 'bakery');
+                $conn = new mysqli('project-db.cc7tazxltrra.us-east-1.rds.amazonaws.com', 'admin', 'awsprojectdb', 'projectaws');
 
                 // Check connection
                 if ($conn->connect_error) {
@@ -43,7 +43,7 @@
                 }
 
                 // Fetch item names from the database
-                $sql = "SELECT name FROM item";
+                $sql = "SELECT name FROM Item";
                 $result = $conn->query($sql);
 
                 if (!$result) {

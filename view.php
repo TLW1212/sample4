@@ -1,9 +1,9 @@
 <?php
 // Database connection
-$servername = "localhost";
-$username = "root"; // Update with your database username
-$password = ""; // Update with your database password
-$dbname = "bakery"; // Update with your database name
+$servername = "project-db.cc7tazxltrra.us-east-1.rds.amazonaws.com"; // Use the appropriate hostname
+$username = "admin"; // Replace with your database username
+$password = "awsprojectdb"; // Replace with your database password
+$dbname = "projectaws"; // Replace with your database name
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
